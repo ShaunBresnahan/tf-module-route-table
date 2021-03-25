@@ -1,33 +1,91 @@
+
+variable "ProjectIdentity" {
+  default = "Taskmanager-Pre-AG"
+}
+
+variable "MAIN_LOCATION" {
+  type    = string
+  default = "uksouth"
+}
+
+variable "MAIN_ADDRESS" {
+  default = "10.240.217.0/24"
+}
+
+variable "DNS_SERVERS" {
+  default = [
+    "10.240.253.133",
+    "10.240.253.132",
+  ]
+}
+
+variable "SUBNETS" {
+  default = [
+    {
+      name   = "Taskmanager-Pre-AG-subnet"
+      number = 0 
+    },
+    {
+      name   = "Taskmanager-Pre-PE-subnet"
+      number = 1 
+    }
+  ]
+}
+
+variable "NEWBITS" {
+  default = 4
+}
+
+#variable "certificate_name" {
+#  default = "Wildcard_WITHKEY"
+#}
+
+
+variable "MAIN_ENDPOINTS" {
+  default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
+}
+
+variable "TAGS" {
+  type = map
+  default = {
+    ENVIRONMENT      = "Pre",
+    SERVICE          = "Taskmanager",
+    SERVICE_OWNER    = "Thomas Scott-Clarke",
+    RESPONSIBLE_TEAM = "Tamatoa",
+    CALLOUT_TEAM     = "On-Call_N/A"
+  }
+}
+
 variable "spokerg" {
- #description = "name of spoke resource group"
+  default = "m-taskmanager-pre-appgateway-RG"
 }
 variable "hubrg" {
- #description = "name of hub resource group"
+  default = "engineering-rg"
 }
 variable "hubrt" {
-  #description = "hub route table name" 
+  default = "EngineeringAD-RT"
 }
 variable "id" {
-  #description = "environment you're deploying too"
+  default = "Taskmanager-Pre-AG"
 }
 variable "routetable" {
-  #description = "spoke route table"
+  default = "Taskmanager-Pre-AG-rt" 
 }
 variable "spokeroute" {
-  #description = "Spoke routetable route array [""]
+  default = ["to-M-EngineeringAD-route" , "to-M-Laptops-route"]
 }
 variable "hubroute" {
-  #description = "Hub routetable routes" [""]
+  default = ["to-M-Taskmanager-Pre-AG-route"] 
 }
 variable "hop" {
-  #description = "The type of hop you require in a array" ["VirtualNetworkGateway"]
+  default = ["VirtualNetworkGateway" , "VirtualNetworkGateway"]
 }
 variable "subnets" {
- #description = "array contains names of subnets, the subnet array used on the tfmodule-azure-vnet-with-nsg fits this expected pattern" 
-}
-variable "spokeprefix" {
-  #description = "Spoke ip route array" [""]
+  default = "Taskmanager-Pre-AG-subnet"
 }
 variable "hubprefix" {
-  #description = "hub ip route array" [""]  
+  default = ["10.240.217.0/24"]
+}
+variable "spokeprefix" {
+  default = ["10.240.253.128/25" , "10.98.0.0/22"]
 }
