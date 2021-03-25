@@ -1,91 +1,33 @@
-
-variable "ProjectIdentity" {
-  default = "Taskmanager-Pre-AG"
-}
-
-variable "MAIN_LOCATION" {
-  type    = string
-  default = "uksouth"
-}
-
-variable "MAIN_ADDRESS" {
-  default = "10.240.217.0/24"
-}
-
-variable "DNS_SERVERS" {
-  default = [
-    "10.240.253.133",
-    "10.240.253.132",
-  ]
-}
-
-variable "SUBNETS" {
-  default = [
-    {
-      name   = "Taskmanager-Pre-AG-subnet"
-      number = 0 
-    },
-    {
-      name   = "Taskmanager-Pre-PE-subnet"
-      number = 1 
-    }
-  ]
-}
-
-variable "NEWBITS" {
-  default = 4
-}
-
-#variable "certificate_name" {
-#  default = "Wildcard_WITHKEY"
-#}
-
-
-variable "MAIN_ENDPOINTS" {
-  default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
-}
-
-variable "TAGS" {
-  type = map
-  default = {
-    ENVIRONMENT      = "Pre",
-    SERVICE          = "Taskmanager",
-    SERVICE_OWNER    = "Thomas Scott-Clarke",
-    RESPONSIBLE_TEAM = "Tamatoa",
-    CALLOUT_TEAM     = "On-Call_N/A"
-  }
-}
-
 variable "spokerg" {
-  default = "m-taskmanager-pre-appgateway-RG"
+ #description = "name of spoke resource group"
 }
 variable "hubrg" {
-  default = "engineering-rg"
+ #description = "name of hub resource group"
 }
 variable "hubrt" {
-  default = "EngineeringAD-RT"
+  #description = "hub route table name" 
 }
 variable "id" {
-  default = "Taskmanager-Pre-AG"
+  #description = "environment you're deploying too"
 }
 variable "routetable" {
-  default = "Taskmanager-Pre-AG-rt" 
+  #description = "spoke route table"
 }
 variable "spokeroute" {
-  default = ["to-M-EngineeringAD-route" , "to-M-Laptops-route"]
+  #description = "Spoke routetable route array [""]
 }
 variable "hubroute" {
-  default = ["to-M-Taskmanager-Pre-AG-route"] 
+  #description = "Hub routetable routes" [""]
 }
 variable "hop" {
-  default = ["VirtualNetworkGateway" , "VirtualNetworkGateway"]
+  #description = "The type of hop you require in a array" ["VirtualNetworkGateway"]
 }
 variable "subnets" {
-  default = "Taskmanager-Pre-AG-subnet"
-}
-variable "hubprefix" {
-  default = ["10.240.217.0/24"]
+ #description = "array contains names of subnets, the subnet array used on the tfmodule-azure-vnet-with-nsg fits this expected pattern" 
 }
 variable "spokeprefix" {
-  default = ["10.240.253.128/25" , "10.98.0.0/22"]
+  #description = "Spoke ip route array" [""]
+}
+variable "hubprefix" {
+  #description = "hub ip route array" [""]  
 }
