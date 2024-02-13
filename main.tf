@@ -1,13 +1,3 @@
-provider "azurerm" {
-
-  alias = "spoke"  
-}
-
-provider "azurerm" {
-
-  alias = "hub"  
-}
-
 locals {
   vnet_name = "${var.id}-vnet"
 }
