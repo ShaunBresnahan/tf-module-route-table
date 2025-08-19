@@ -1,27 +1,28 @@
-
 locals {
   vnet_name = "${var.id}-vnet"
 }
 
 data "azurerm_resource_group" "main" {
   provider = azurerm.spoke
-  name     = var.spokerg 
+  name     = var.spokerg
 }
 
 resource "azurerm_route_table" "main" {
-  provider                      = azurerm.spoke
-  name                          = var.routetable
-  location                      = data.azurerm_resource_group.main.location
-  resource_group_name           = data.azurerm_resource_group.main.name
-  
-  lifecycle { ignore_changes = [tags] }
+  provider            = azurerm.spoke
+  name                = var.routetable
+  location            = data.azurerm_resource_group.main.location
+  resource_group_name = data.azurerm_resource_group.main.name
+
+  lifecycle {
+    ignore_changes = [tags]
+  }
 }
 
 data "azurerm_subnet" "main" {
-  for_each = { for s in var.subnet : s => s }
-  provider             = azurerm.spoke
-  name                 = each.value
-  resource_group_name  = var.spokerg
+  for_each            = toset(var.subnets)
+  provider            = azurerm.spoke
+  name                = each.value
+  resource_group_name = var.spokerg
   virtual_network_name = local.vnet_name
 }
 
@@ -33,11 +34,14 @@ resource "azurerm_subnet_route_table_association" "main" {
 }
 
 resource "azurerm_route" "main" {
-  for_each            = { for idx, name in var.spokeroute : idx => {
-    name          = name
-    address_prefix = var.spokeprefix[idx]
-    next_hop_type  = var.hop[idx]
-  } }
+  for_each = {
+    for idx, route_name in var.spokeroute : route_name => {
+      name           = route_name
+      address_prefix = var.spokeprefix[idx]
+      next_hop_type  = var.hop[idx]
+    }
+  }
+
   provider            = azurerm.spoke
   name                = each.value.name
   resource_group_name = data.azurerm_resource_group.main.name
@@ -45,6 +49,7 @@ resource "azurerm_route" "main" {
   address_prefix      = each.value.address_prefix
   next_hop_type       = each.value.next_hop_type
 }
+
 
 
 ############## OLD ###############

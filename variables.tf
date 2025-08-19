@@ -1,29 +1,36 @@
 variable "spokerg" {
-  #description = "name of spoke resource group"
+  description = "Name of spoke resource group"
+  type        = string
 }
 
 variable "id" {
-  #description = "environment you're deploying too"
+  description = "Environment identifier (used in VNet naming convention)"
+  type        = string
 }
 
 variable "routetable" {
-  #description = "spoke route table"
+  description = "Spoke route table name"
+  type        = string
 }
 
 variable "spokeroute" {
-  #description = "Spoke routetable route array [\"\"]"
+  description = "List of spoke route names"
+  type        = list(string)
 }
 
 variable "hop" {
-  #description = "The type of hop you require in a array" ["VirtualNetworkGateway"]
+  description = "List of next hop types (e.g. [\"VirtualNetworkGateway\"])"
+  type        = list(string)
 }
 
-variable "subnet" {
-  #description = "array contains names of subnets, the subnet array used on the tfmodule-azure-vnet-with-nsg fits this expected pattern"
+variable "subnets" {
+  description = "List of subnet names to associate with the route table"
+  type        = list(string)
 }
 
 variable "spokeprefix" {
-  #description = "Spoke ip route array" [""]
+  description = "List of route address prefixes (e.g. [\"10.0.0.0/16\"])"
+  type        = list(string)
 }
 
 
