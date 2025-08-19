@@ -18,7 +18,7 @@ resource "azurerm_route_table" "main" {
 }
 
 data "azurerm_subnet" "main" {
-  for_each             = { for subnet in var.subnets : subnet.name => subnet }
+  for_each             = { for subnet in var.subnet : subnet.name => subnet }
   provider             = azurerm.spoke
   name                 = each.value.name
   resource_group_name  = var.spokerg

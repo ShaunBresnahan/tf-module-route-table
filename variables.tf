@@ -18,7 +18,7 @@ variable "hop" {
   #description = "The type of hop you require in a array" ["VirtualNetworkGateway"]
 }
 
-variable "subnets" {
+variable "subnet" {
   #description = "array contains names of subnets, the subnet array used on the tfmodule-azure-vnet-with-nsg fits this expected pattern"
 }
 
