@@ -1,70 +1,59 @@
-# Terraform Module: for Azure route table with multiple routes
+# Terraform Module: for Azure vnet with nsg
 
 ## Required Resources
 
 - `Resource Group` exists or is created external to the module.
-- `Provider` must be created external to the module.
 
 ## Usage
 
 ```terraform
-# Route Tables Additional Routes
-
-## Creating multiple routes under the spoke and hub tables
-
-## Usage Vars
 
 variable "spokerg" {
- #description = "name of spoke resource group"
+  description = "Name of spoke resource group"
+  type        = string
 }
-variable "hubrg" {
- #description = "name of hub resource group"
-}
-variable "hubrt" {
-  #description = "hub route table name" 
-}
+
 variable "id" {
-  #description = "environment you're deploying too"
+  description = "Environment identifier (used in VNet naming convention)"
+  type        = string
 }
+
 variable "routetable" {
-  #description = "spoke route table"
+  description = "Spoke route table name"
+  type        = string
 }
+
 variable "spokeroute" {
-  #description = "Spoke routetable route array [""]
+  description = "List of spoke route names"
+  type        = list(string)
 }
-variable "hubroute" {
-  #description = "Hub routetable routes" [""]
-}
+
 variable "hop" {
-  #description = "The type of hop you require in a array" ["VirtualNetworkGateway"]
+  description = "List of next hop types (e.g. [\"VirtualNetworkGateway\"])"
+  type        = list(string)
 }
-variable "subnets" {
- #description = "array contains names of subnets, the subnet array used on the tfmodule-azure-vnet-with-nsg fits this expected pattern" 
+
+variable "subnet_ids" {
+  description = "Map of subnet IDs keyed by subnet name"
+  type        = map(string)
 }
+
 variable "spokeprefix" {
-  #description = "Spoke ip route array" [""]
-}
-variable "hubprefix" {
-  #description = "hub ip route array" [""]  
+  description = "List of route address prefixes (e.g. [\"10.0.0.0/16\"])"
+  type        = list(string)
 }
 
-## Module
-
-module "create" {
-    source                    = "github.com/UKHO/route-table-additional-routes"
-    providers = {
-        azurerm.hub   = azurerm.hub
-        azurerm.spoke = azurerm.test
-    }    
-    spokerg                 =  var.spokerg
-    hubrg                   =  var.hubrg
-    hubrt                   =  var.hubrt
-    id                      =  var.id
-    routetable              =  var.routetable
-    spokeroute              =  var.spokeroute
-    hubroute                =  var.hubroute
-    hop                     =  var.hop
-    subnets                 =  var.SUBNETS
-    hubprefix               =  var.hubprefix
-    spokeprefix             =  var.spokeprefix
+module "routetable" {
+  source    = "./tf-module-route-table"
+  providers = {
+    azurerm.spoke = azurerm.something
+  }
+  spokerg      = var.spokerg
+  id           = var.id
+  routetable   = var.routetable
+  spokeroute   = var.spokeroute
+  hop          = var.hop
+  subnet_ids   = module.spokesetup.subnet_ids
+  spokeprefix  = var.spokeprefix
 }
+```
