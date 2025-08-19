@@ -24,10 +24,10 @@ variable "hop" {
 }
 
 # You can keep this if used elsewhere, but it's no longer needed for associations
-variable "subnets" {
-  description = "List of subnet names to associate with the route table"
-  type        = list(string)
-}
+#variable "subnets" {
+#  description = "List of subnet names to associate with the route table"
+#  type        = list(string)
+#}
 
 variable "subnet_ids" {
   description = "Map of subnet IDs keyed by subnet name"
