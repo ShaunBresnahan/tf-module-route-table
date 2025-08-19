@@ -23,11 +23,6 @@ resource "azurerm_subnet_route_table_association" "main" {
   provider       = azurerm.spoke
   subnet_id      = each.value
   route_table_id = azurerm_route_table.main.id
-
-  # Optional safeguard to avoid churn unless the subnet ID changes
-  lifecycle {
-    replace_triggered_by = [each.value]
-  }
 }
 
 resource "azurerm_route" "main" {
